@@ -3,18 +3,28 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import SideMenu from './src/navigation/SideMenu';
-import { Home, ContactUs, ChannelList, Pricing, FAQ, Tutorial } from './src/screens';
-import { WhatsAppButton } from './src/components';
+import { Home } from './src/screens';
+import { Provider, useSelector } from 'react-redux';
+import { Login } from './src/screens/Login';
+import { persistor, store } from './src/redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Image, View } from 'react-native';
+import { CopyIcon, HomeIcon, ProfileIcon } from './src/constant/svgs';
+import { images } from './src/constant';
+import { Setting } from './src/screens/Setting';
+import { Profile } from './src/screens/Profile';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 
 const DrawerNavigation = () => (
   <Drawer.Navigator
     drawerPosition="left"
-    initialRouteName="Home"
+    initialRouteName="BottomNavigation"
     drawerContent={props => <SideMenu {...props} />}>
     <Drawer.Screen
       name="Home"
@@ -22,38 +32,104 @@ const DrawerNavigation = () => (
       options={{ headerShown: false }}
     />
     <Drawer.Screen
-      name="Pricing"
-      component={Pricing}
+      name="BottomNavigation"
+      component={BottomNavigation}
       options={{ headerShown: false }}
     />
-    <Drawer.Screen
-      name="ContactUs"
-      component={ContactUs}
-      options={{ headerShown: false }}
-    />
-    <Drawer.Screen
-      name="ChannelList"
-      component={ChannelList}
-      options={{ headerShown: false }}
-    />
-    <Drawer.Screen
-      name="FAQ"
-      component={FAQ}
-      options={{ headerShown: false }}
-    />
-    <Drawer.Screen
-      name="Tutorial"
-      component={Tutorial}
-      options={{ headerShown: false }}
-    />
+
   </Drawer.Navigator>
 );
 
-const HomeStack = () => (
-  <Stack.Navigator initialRouteName="Homes">
+
+const BottomNavigation = () => {
+
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      detachInactiveScreens={true}
+      screenOptions={({ route }) => ({
+        tabBarStyle: {
+          backgroundColor: '#FF9228'
+        },
+        tabItemStyle: {
+          height: 70,
+        },
+        tabBarIcon: ({ focused }) => {
+          var tintColor = { tintColor: focused ? '#E95F6D' : 'gray' };
+          var border
+          var icon
+
+          switch (route.name) {
+            case 'Home':
+              icon = images.home;
+              border = {};
+              break;
+
+            case 'Profile':
+              icon = images.profile;
+              border = {};
+              break;
+
+            case 'Settings':
+              icon = images.activity;
+              border = {};
+              break;
+
+            default:
+              break;
+          }
+           return (
+            <Image
+              source={icon}
+              resizeMode="contain"
+              style={[
+                tintColor,
+                border,
+
+                {
+                  marginTop: 5,
+                  height: 22,
+                  width: 22,
+                },
+              ]}
+            />
+          );
+        },
+      })}>
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarLabel: ({ focused }) => null,
+          headerShown: false
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={Setting}
+        options={{
+          tabBarLabel: ({ focused }) => null,
+          headerShown: false
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarLabel: ({ focused }) => null,
+          headerShown: false
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+
+const AuthStack = () => (
+  <Stack.Navigator initialRouteName="Login">
     <Stack.Screen
-      name="Homes"
-      component={DrawerNavigation}
+      name="Login"
+      component={Login}
       options={{
         animationEnabled: false,
         headerShown: false,
@@ -62,13 +138,24 @@ const HomeStack = () => (
   </Stack.Navigator>
 );
 
+
+function MainStack() {
+  const token = useSelector(state => state?.user?.token)
+
+  if (token) {
+    return <DrawerNavigation />
+  } else {
+    return <AuthStack />
+  }
+}
 export default () => {
   return (
-    <>
-      <NavigationContainer>
-        <DrawerNavigation />
-      </NavigationContainer>
-      <WhatsAppButton />
-    </>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <MainStack />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 };

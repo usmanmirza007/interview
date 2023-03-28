@@ -35,4 +35,10 @@ export const images = {
   tvRemote: require('../assets/images/tvRemote.webp'),
   duplexPlay: require('../assets/images/duplexPlay.webp'),
   dmcaProtectedLogo: require('../assets/images/dmcaProtectedLogo.png'),
+  sol: require('../assets/images/sol.png'),
+  profile: require('../assets/images/profile.png'),
+  home: require('../assets/images/home.png'),
+  activity: require('../assets/images/activity.png'),
+
+
 };

@@ -9,13 +9,13 @@ import {
 } from '../components';
 import {useNavigation} from '@react-navigation/native';
 
-export const Home = () => {
+export const Setting = () => {
   const navigation = useNavigation();
   return (
     <>
       <Header image={images.menu}  />
       <ScrollView style={styles.container} showVerticalScrollIndicator={false}>
-       <Text style={{alignSelf: 'center'}}>Home screen</Text>
+       <Text style={{alignSelf: 'center'}}>Setting screen</Text>
       </ScrollView>
     </>
   );
