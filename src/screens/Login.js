@@ -13,7 +13,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import commonStyle from '../constant/commonStyle';
 import { useDispatch } from 'react-redux';
-import { loggedIn } from '../redux/reducer/mainSlice';
+import { addUserDetail, loggedIn } from '../redux/reducer/mainSlice';
 
 export const Login = () => {
   const navigation = useNavigation();
@@ -34,9 +34,9 @@ export const Login = () => {
       } else if (password.length < 6) {
         Alert.alert('Your password must be at least 6 characters')
       } else {
+        dispatch(addUserDetail(email))
         dispatch(loggedIn(true))
         Alert.alert('You are login successfully')
-
       }
     } else {
       Alert.alert('Please fill all fields!')

@@ -39,6 +39,8 @@ export const images = {
   profile: require('../assets/images/profile.png'),
   home: require('../assets/images/home.png'),
   activity: require('../assets/images/activity.png'),
+  setting: require('../assets/images/setting.png'),
+
 
 
 };

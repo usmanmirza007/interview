@@ -11,6 +11,7 @@ const persistConfig = {
 
 const initialState = {
     token: false,
+    user: null
 }
 
 export const mainSlice = createSlice({
@@ -20,12 +21,15 @@ export const mainSlice = createSlice({
         loggedIn: (state, data) => {
             state.token = data.payload
         },
+        addUserDetail: (state, data) => {
+            state.user = data.payload
+        },
         logout : (state) => {
             state.token = false
         },
     },
 })
 
-export const { loggedIn, logout } = mainSlice.actions
+export const { loggedIn, logout, addUserDetail } = mainSlice.actions
 
 export const mainReducer = persistReducer(persistConfig, mainSlice.reducer)

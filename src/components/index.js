@@ -6,4 +6,3 @@ export {FAQsComponent} from './FAQsComponent';
 export {GetStarted} from './GetStarted';
 export {Header} from './Header';
 export {Footer} from './Footer';
-export {WhatsAppButton} from './WhatsAppButton';

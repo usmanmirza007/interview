@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,14 +12,24 @@ import { Login } from './src/screens/Login';
 import { persistor, store } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Image, View } from 'react-native';
-import { CopyIcon, HomeIcon, ProfileIcon } from './src/constant/svgs';
 import { images } from './src/constant';
 import { Setting } from './src/screens/Setting';
 import { Profile } from './src/screens/Profile';
+import SplashScreen from 'react-native-splash-screen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
+
+// useEffect(() => {
+
+//   setTimeout(() => {
+//     // if (SplashScreen) {
+//       // SplashScreen.hide();
+//     // }
+
+//   }, 2000);
+// }, [])
 
 const DrawerNavigation = () => (
   <Drawer.Navigator
@@ -49,7 +59,7 @@ const BottomNavigation = () => {
       detachInactiveScreens={true}
       screenOptions={({ route }) => ({
         tabBarStyle: {
-          backgroundColor: '#FF9228'
+          backgroundColor: '#000'
         },
         tabItemStyle: {
           height: 70,
@@ -71,14 +81,14 @@ const BottomNavigation = () => {
               break;
 
             case 'Settings':
-              icon = images.activity;
+              icon = images.setting;
               border = {};
               break;
 
             default:
               break;
           }
-           return (
+          return (
             <Image
               source={icon}
               resizeMode="contain"

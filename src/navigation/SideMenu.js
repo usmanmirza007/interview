@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { colors, fontFamily, STATUS_BAR_HEIGHT, images, WINDOW_WIDTH, WINDOW_HEIGHT } from '../constant';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/reducer/mainSlice';
+import { store } from '../redux/store';
 
 const SideMenu = () => {
   const navigation = useNavigation()
@@ -27,21 +28,22 @@ const SideMenu = () => {
           marginTop: 50,
         }}
       />
+      <Text numberOfLines={1} style={[styles.itemText, {marginLeft: 10}]}>Email: {store.getState().user.user}</Text>
+
       <ScrollView style={{}}>
         <TouchableOpacity onPress={() => { }} style={{ marginLeft: 15, marginTop: 20 + STATUS_BAR_HEIGHT }}>
           <Text style={styles.itemText}>News</Text>
         </TouchableOpacity>
         <View style={styles.separator} />
-        <TouchableOpacity onPress={() => { }} style={{ marginLeft: 15, marginTop: 20}}>
+        <TouchableOpacity onPress={() => { }} style={{ marginLeft: 15, marginTop: 20 }}>
           <Text style={styles.itemText}>Video</Text>
         </TouchableOpacity>
         <View style={styles.separator} />
-        <TouchableOpacity onPress={() => { dispatch(logout()) }} style={{ marginLeft: 15, marginTop: 20}}>
+        <TouchableOpacity onPress={() => { dispatch(logout()) }} style={{ marginLeft: 15, marginTop: 20 }}>
           <Text style={styles.itemText}>Logout</Text>
         </TouchableOpacity>
         <View style={styles.separator} />
-
-
+        
       </ScrollView>
     </View>
   );
